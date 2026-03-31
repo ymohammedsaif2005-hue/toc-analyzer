@@ -25,7 +25,7 @@ const FinancialDashboard = ({ bottleneck }) => {
   };
 
   return (
-    <div className="financial-dashboard-container">
+    <>
       <div className="module">
         <h2>Global Financial Settings</h2>
         <div className="input-group vertical-inputs">
@@ -74,7 +74,7 @@ const FinancialDashboard = ({ bottleneck }) => {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 
