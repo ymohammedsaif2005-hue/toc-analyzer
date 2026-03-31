@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import Papa from 'papaparse';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import Collapsible from './Collapsible';
+import { useArrowNavigation } from '../hooks/useArrowNavigation';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -10,10 +11,18 @@ const BottleneckFinder = ({ setBottleneck }) => {
   const [steps, setSteps] = useState([]);
   const [newStep, setNewStep] = useState({ name: '', capacity: '', output: '' });
   const [lastDeletedStep, setLastDeletedStep] = useState(null);
+  const inputContainerRef = useRef(null);
+  useArrowNavigation(inputContainerRef);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewStep({ ...newStep, [name]: value });
+  };
+
+  const handleStepInputKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      addStep();
+    }
   };
 
   const addStep = () => {
@@ -214,10 +223,10 @@ const BottleneckFinder = ({ setBottleneck }) => {
           <li><span className="legend-color-box status-green"></span> Green = healthy</li>
         </ul>
       </Collapsible>
-      <div className="input-group">
-        <input type="text" name="name" placeholder="Step Name" value={newStep.name} onChange={handleInputChange} />
-        <input type="number" name="capacity" placeholder="Available Capacity/hr" value={newStep.capacity} onChange={handleInputChange} />
-        <input type="number" name="output" placeholder="Actual Output/hr" value={newStep.output} onChange={handleInputChange} />
+      <div className="input-group" ref={inputContainerRef}>
+        <input type="text" name="name" placeholder="Step Name" value={newStep.name} onChange={handleInputChange} onKeyDown={handleStepInputKeyDown} />
+        <input type="number" name="capacity" placeholder="Available Capacity/hr" value={newStep.capacity} onChange={handleInputChange} onKeyDown={handleStepInputKeyDown} />
+        <input type="number" name="output" placeholder="Actual Output/hr" value={newStep.output} onChange={handleInputChange} onKeyDown={handleStepInputKeyDown} />
         <button onClick={addStep}>Add Step</button>
       </div>
       <div className="input-group">

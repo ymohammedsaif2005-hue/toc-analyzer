@@ -7,6 +7,9 @@ import './App.css';
 function App() {
   const [bottleneck, setBottleneck] = useState(null);
 
+  // A "genuine" bottleneck is the highest utilized step, but ONLY if its utilization is > 70%.
+  const genuineBottleneck = bottleneck && bottleneck.utilisation > 70 ? bottleneck : null;
+
   return (
     <div className="App">
       <header className="App-header">
@@ -15,7 +18,7 @@ function App() {
       <main>
         <BottleneckFinder setBottleneck={setBottleneck} />
         <DBRScheduler bottleneck={bottleneck} />
-        <FinancialDashboard bottleneck={bottleneck} />
+        <FinancialDashboard bottleneck={genuineBottleneck} />
       </main>
     </div>
   );

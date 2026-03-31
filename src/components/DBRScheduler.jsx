@@ -1,15 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Collapsible from './Collapsible';
+import { useArrowNavigation } from '../hooks/useArrowNavigation';
 
 const DBRScheduler = ({ bottleneck }) => {
   const [orders, setOrders] = useState([]);
   const [newOrder, setNewOrder] = useState({ name: '', quantity: '', dueDate: '' });
   const [bufferDays, setBufferDays] = useState(3);
   const [lastDeletedOrder, setLastDeletedOrder] = useState(null);
+  const inputContainerRef = useRef(null);
+  useArrowNavigation(inputContainerRef);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewOrder({ ...newOrder, [name]: value });
+  };
+
+  const handleOrderInputKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      addOrder();
+    }
   };
 
   const addOrder = () => {
@@ -70,18 +79,18 @@ const DBRScheduler = ({ bottleneck }) => {
               onChange={(e) => setBufferDays(parseInt(e.target.value, 10))}
             />
           </div>
-          <div className="input-group vertical-inputs">
+          <div className="input-group vertical-inputs" ref={inputContainerRef}>
             <div>
               <label htmlFor="orderName">Order Name</label>
-              <input id="orderName" type="text" name="name" placeholder="e.g., Project X" value={newOrder.name} onChange={handleInputChange} />
+              <input id="orderName" type="text" name="name" placeholder="e.g., Project X" value={newOrder.name} onChange={handleInputChange} onKeyDown={handleOrderInputKeyDown} />
             </div>
             <div>
               <label htmlFor="quantity">Quantity</label>
-              <input id="quantity" type="number" name="quantity" placeholder="e.g., 100" value={newOrder.quantity} onChange={handleInputChange} />
+              <input id="quantity" type="number" name="quantity" placeholder="e.g., 100" value={newOrder.quantity} onChange={handleInputChange} onKeyDown={handleOrderInputKeyDown} />
             </div>
             <div>
               <label htmlFor="dueDate">Due Date</label>
-              <input id="dueDate" type="date" name="dueDate" value={newOrder.dueDate} onChange={handleInputChange} />
+              <input id="dueDate" type="date" name="dueDate" value={newOrder.dueDate} onChange={handleInputChange} onKeyDown={handleOrderInputKeyDown} />
             </div>
             <button onClick={addOrder}>Add Order</button>
           </div>
