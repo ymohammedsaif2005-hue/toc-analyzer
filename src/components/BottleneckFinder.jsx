@@ -82,6 +82,32 @@ const BottleneckFinder = ({ setBottleneck }) => {
     }
   };
 
+  const renderBottleneckAlert = () => {
+    if (steps.length < 2) {
+      return null; // No alert for a single step
+    }
+
+    const hasHighUtilisation = steps.some(step => step.utilisation > 70);
+
+    if (!hasHighUtilisation) {
+      return (
+        <div className="bottleneck-summary healthy">
+          <p>All processes are healthy — no constraint identified.</p>
+        </div>
+      );
+    }
+
+    if (bottleneck) {
+      return (
+        <div className="bottleneck-summary">
+          <p>Your bottleneck is <span className="bottleneck-name">{bottleneck.name}</span> running at <span className="bottleneck-capacity">{bottleneck.utilisation.toFixed(2)}%</span> capacity.</p>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   const bottleneck = steps.length > 0 ? steps[0] : null;
 
   const getBarColor = (utilisation) => {
@@ -204,11 +230,7 @@ const BottleneckFinder = ({ setBottleneck }) => {
         </div>
       )}
 
-      {bottleneck && (
-        <div className="bottleneck-summary">
-          <p>Your bottleneck is <span className="bottleneck-name">{bottleneck.name}</span> running at <span className="bottleneck-capacity">{bottleneck.utilisation.toFixed(2)}%</span> capacity.</p>
-        </div>
-      )}
+      {renderBottleneckAlert()}
 
       <div className="chart-container">
         {steps.length > 0 && <Bar options={chartOptions} data={chartData} />}
