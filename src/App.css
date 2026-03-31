@@ -61,6 +61,7 @@ main {
 .input-group {
   margin-bottom: 15px;
   display: flex;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
   gap: 10px;
   align-items: center;
 }
@@ -73,6 +74,7 @@ main {
   border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: 1rem;
+  flex-grow: 1; /* Allow inputs to grow and fill space */
 }
 
 .input-group button {
@@ -84,10 +86,38 @@ main {
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s;
+  flex-grow: 1; /* Allow button to grow */
 }
 
 .input-group button:hover {
   background-color: var(--secondary-color);
+}
+
+.vertical-inputs {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.vertical-inputs div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.vertical-inputs label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+.vertical-inputs input {
+  width: calc(100% - 18px); /* Account for padding */
+}
+
+.vertical-inputs button {
+  align-self: flex-start;
+  margin-top: 10px;
 }
 
 .bottleneck-summary {
@@ -115,10 +145,15 @@ main {
   border-top: 1px solid var(--border-color);
 }
 
+.steps-list, .schedule-table {
+    width: 100%;
+    overflow-x: auto; /* Allow horizontal scrolling on small screens */
+    margin-top: 20px;
+}
+
 .steps-list table, .schedule-table table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
 }
 
 .steps-list th, .steps-list td,
@@ -126,6 +161,7 @@ main {
     border: 1px solid var(--border-color);
     padding: 8px;
     text-align: left;
+    white-space: nowrap; /* Prevent table content from wrapping */
 }
 
 .steps-list th, .schedule-table th {
@@ -168,4 +204,123 @@ main {
 .status-red {
     background-color: var(--status-red);
 }
+
+.collapsible {
+  margin-bottom: 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.collapsible-header {
+  background-color: #f2f2f2;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collapsible-header .arrow {
+  transition: transform 0.3s;
+}
+
+.collapsible-header .arrow.open {
+  transform: rotate(180deg);
+}
+
+.collapsible-content {
+  padding: 10px;
+  border-top: 1px solid var(--border-color);
+}
+
+.legend-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legend-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.legend-color-box {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+}
+
+.legend-color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.summary-box {
+    background-color: #eef7ff;
+    border: 1px solid var(--primary-color);
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 4px;
+}
+
+.summary-box h3 {
+    margin-top: 0;
+    color: var(--secondary-color);
+}
+
+.utilisation-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  main {
+    padding: 10px;
+  }
+
+  .module {
+    width: 95%;
+    padding: 15px;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .input-group input[type="text"],
+  .input-group input[type="number"],
+  .input-group input[type="date"],
+  .input-group input[type="file"],
+  .input-group button {
+    width: 100%;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  }
+
+  .chart-container {
+    height: 300px; /* Adjust chart height for mobile */
+  }
+}
+
 

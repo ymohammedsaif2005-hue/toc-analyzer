@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import Collapsible from './Collapsible';
 
 const DBRScheduler = ({ bottleneck }) => {
   const [orders, setOrders] = useState([]);
   const [newOrder, setNewOrder] = useState({ name: '', quantity: '', dueDate: '' });
   const [bufferDays, setBufferDays] = useState(3);
+  const [lastDeletedOrder, setLastDeletedOrder] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -12,6 +14,7 @@ const DBRScheduler = ({ bottleneck }) => {
 
   const addOrder = () => {
     if (newOrder.name && newOrder.quantity && newOrder.dueDate) {
+      setLastDeletedOrder(null); // Hide undo button on new add
       const releaseDate = new Date(newOrder.dueDate);
       releaseDate.setDate(releaseDate.getDate() - bufferDays);
 
@@ -27,14 +30,32 @@ const DBRScheduler = ({ bottleneck }) => {
     const elapsed = today - new Date(releaseDate);
     const percentage = (elapsed / totalBuffer) * 100;
 
-    if (percentage > 66) return { text: 'RED', className: 'status-red' };
-    if (percentage > 33) return { text: 'YELLOW', className: 'status-yellow' };
-    return { text: 'GREEN', className: 'status-green' };
+    if (percentage > 50) return { text: 'Act Now', color: 'RED', className: 'status-red' };
+    return { text: 'On Track', color: 'GREEN', className: 'status-green' };
+  };
+
+  const deleteOrder = (id) => {
+    const deleted = orders.find(order => order.id === id);
+    setLastDeletedOrder(deleted);
+    setOrders(orders.filter(order => order.id !== id));
+  };
+
+  const undoDelete = () => {
+    if (lastDeletedOrder) {
+      setOrders([...orders, lastDeletedOrder].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)));
+      setLastDeletedOrder(null);
+    }
   };
 
   return (
     <div className="module">
       <h2>Module 2: DBR Scheduler</h2>
+      <Collapsible title="Buffer Legend">
+        <ul className="legend-list">
+          <li><span className="legend-color-dot status-red"></span> RED - Act Now (over 50% of buffer consumed)</li>
+          <li><span className="legend-color-dot status-green"></span> GREEN - On Track (under 50% of buffer consumed)</li>
+        </ul>
+      </Collapsible>
       {bottleneck ? (
         <>
           <div className="drum-info">
@@ -49,12 +70,27 @@ const DBRScheduler = ({ bottleneck }) => {
               onChange={(e) => setBufferDays(parseInt(e.target.value, 10))}
             />
           </div>
-          <div className="input-group">
-            <input type="text" name="name" placeholder="Order Name" value={newOrder.name} onChange={handleInputChange} />
-            <input type="number" name="quantity" placeholder="Quantity" value={newOrder.quantity} onChange={handleInputChange} />
-            <input type="date" name="dueDate" placeholder="Due Date" value={newOrder.dueDate} onChange={handleInputChange} />
+          <div className="input-group vertical-inputs">
+            <div>
+              <label htmlFor="orderName">Order Name</label>
+              <input id="orderName" type="text" name="name" placeholder="e.g., Project X" value={newOrder.name} onChange={handleInputChange} />
+            </div>
+            <div>
+              <label htmlFor="quantity">Quantity</label>
+              <input id="quantity" type="number" name="quantity" placeholder="e.g., 100" value={newOrder.quantity} onChange={handleInputChange} />
+            </div>
+            <div>
+              <label htmlFor="dueDate">Due Date</label>
+              <input id="dueDate" type="date" name="dueDate" value={newOrder.dueDate} onChange={handleInputChange} />
+            </div>
             <button onClick={addOrder}>Add Order</button>
           </div>
+
+          {lastDeletedOrder && (
+            <div className="undo-container">
+              <button onClick={undoDelete}>Undo Delete</button>
+            </div>
+          )}
 
           <div className="schedule-table">
             <h3>Production Schedule</h3>
@@ -65,6 +101,7 @@ const DBRScheduler = ({ bottleneck }) => {
                   <th>Release Date</th>
                   <th>Due Date</th>
                   <th>Buffer Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -75,7 +112,11 @@ const DBRScheduler = ({ bottleneck }) => {
                       <td>{order.name}</td>
                       <td>{new Date(order.releaseDate).toLocaleDateString()}</td>
                       <td>{new Date(order.dueDate).toLocaleDateString()}</td>
-                      <td><span className={`status-badge ${status.className}`}>{status.text}</span></td>
+                      <td>
+                        <span className={`status-dot ${status.className}`}></span>
+                        {status.color}
+                      </td>
+                      <td><button onClick={() => deleteOrder(order.id)}>Delete</button></td>
                     </tr>
                   );
                 })}
