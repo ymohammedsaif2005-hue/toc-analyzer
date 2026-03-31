@@ -294,6 +294,39 @@ main {
   border: 1px solid rgba(0,0,0,0.1);
 }
 
+.undo-container {
+  margin-bottom: 15px;
+}
+
+.dashboard-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.metric-label {
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+.metric-value.profit {
+  color: var(--status-green);
+  font-weight: bold;
+}
+
+.metric-value.loss {
+  color: var(--status-red);
+  font-weight: bold;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   main {
