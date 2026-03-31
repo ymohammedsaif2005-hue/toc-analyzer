@@ -8,9 +8,9 @@ import './App.css';
 function App() {
   const [bottleneck, setBottleneck] = useState(null);
   const [financialSettings, setFinancialSettings] = useState({
-    unitSellingPrice: 150,
-    unitVariableCost: 50,
-    monthlyOperatingExpense: 50000,
+    unitSellingPrice: '',
+    unitVariableCost: '',
+    monthlyOperatingExpense: '',
   });
 
   return (
