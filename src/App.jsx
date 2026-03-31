@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import BottleneckFinder from './components/BottleneckFinder';
 import DBRScheduler from './components/DBRScheduler';
+import FinancialDashboard from './components/FinancialDashboard';
 import './App.css';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <main>
         <BottleneckFinder setBottleneck={setBottleneck} />
         <DBRScheduler bottleneck={bottleneck} />
+        <FinancialDashboard bottleneck={bottleneck} />
       </main>
     </div>
   );

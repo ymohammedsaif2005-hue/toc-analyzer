@@ -82,19 +82,20 @@ const BottleneckFinder = ({ setBottleneck }) => {
     }
   };
 
+  const showBottleneckInfo = steps.length >= 2 && steps.some(step => step.utilisation > 70);
+
   const renderBottleneckAlert = () => {
-    if (steps.length < 2) {
-      return null; // No alert for a single step
-    }
-
-    const hasHighUtilisation = steps.some(step => step.utilisation > 70);
-
-    if (!hasHighUtilisation) {
-      return (
-        <div className="bottleneck-summary healthy">
-          <p>All processes are healthy — no constraint identified.</p>
-        </div>
-      );
+    if (!showBottleneckInfo) {
+        // If there are steps but they are all healthy, show the green message
+        if (steps.length >= 2) {
+            return (
+                <div className="bottleneck-summary healthy">
+                    <p>All processes are healthy — no constraint identified.</p>
+                </div>
+            );
+        }
+        // Otherwise, show nothing
+        return null;
     }
 
     if (bottleneck) {
@@ -238,7 +239,7 @@ const BottleneckFinder = ({ setBottleneck }) => {
 
       {steps.length > 0 && <hr className="divider" />}
 
-      {bottleneck && (
+      {showBottleneckInfo && bottleneck && (
         <div className="summary-box">
             <h3>What this means</h3>
             <p>The bottleneck is the slowest part of your process, limiting the overall output. To increase throughput, you must focus on improving the efficiency and capacity of the <strong>{bottleneck.name}</strong> step.</p>

@@ -298,6 +298,44 @@ main {
   margin-bottom: 15px;
 }
 
+.financial-dashboard-container {
+  width: 80%;
+  max-width: 900px;
+}
+
+.impact-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.metric-label {
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+.metric-value {
+  font-weight: bold;
+}
+
+.profit {
+  color: var(--status-green);
+}
+
+.loss {
+  color: var(--status-red);
+}
+
 .dashboard-metrics {
   display: flex;
   flex-direction: column;
