@@ -1,16 +1,37 @@
-# React + Vite
+# 🚀 TOC Analyzer: Business Process Optimization Tool
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**A specialized web application designed to identify manufacturing bottlenecks and optimize production throughput using the Theory of Constraints (TOC).**
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🔗 Live Demo
+Check out the live application here: **[Insert your Vercel Link here]**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🧐 Overview
+This project was built to bridge the gap between **Business Management theory** and **Technical execution**. Using Eliyahu M. Goldratt’s *Theory of Constraints*, this tool helps operations managers pinpoint exactly where a process is slowing down and provides data-driven insights to improve efficiency.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Key Features:
+* **Module 1: Bottleneck Finder** – Input step names, capacities, and actual outputs to instantly visualize utilization percentages and identify the "constraint."
+* **Mobile-First Design** – Fully responsive UI, optimized for use on factory floors or in-office tablets.
+* **Automated CI/CD** – Built with a professional development pipeline using GitHub and Vercel.
+
+---
+
+## 🛠️ Tech Stack
+* **Frontend:** React.js + Vite (for high-speed performance)
+* **Styling:** Modern CSS (Flexbox/Grid) with Responsive Design
+* **Deployment:** Vercel (Cloud Hosting)
+* **Version Control:** Git & GitHub
+
+---
+
+## 🚀 Getting Started
+To run this project locally on your machine:
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/ymohammedsaif2005-hue/toc-analyzer.git](https://github.com/ymohammedsaif2005-hue/toc-analyzer.git)
+   ```
